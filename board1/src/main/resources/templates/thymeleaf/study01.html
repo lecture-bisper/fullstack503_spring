@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+
+<!-- xmlns:th="http://www.thymeleaf.org : 현재 html 파일에서 thymeleaf 엔진을 사용한다는 의미 -->
+<!-- html 태그의 속성으로 추가 -->
+<!-- html 태그에 'th:' 이라는 속성명으로 thymeleaf 를 사용할 수 있음 -->
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>thymeleaf 문법1</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+          crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+<div class="container mt-5">
+  <h1 class="mt-3">thymeleaf 사용하기</h1>
+<!--  thymeleaf : 스프링 프레임워크에서 공식 지원하는 템플릿 엔진 -->
+<!--  jsp는 스프링 프레임워크에서 더이상 공식 지원하지 않음 -->
+<!--  jsp를 스프링 프레임워크에서 템플릿 엔진으로 사용하고자할 경우 추가 설정이 필요함 -->
+
+<!--  grade 설정에서 종속성을 추가해야 thymeleaf 를 사용할 수 있음 -->
+<!--  implementation 'org.springframework.boot:spring-boot-starter-thymeleaf' -->
+
+<!--  application.properties 에 설정을 추가하여 사용할 수 있음 -->
+<!--  미설정 시 기본값으로 동작함 -->
+<!--  spring.thymeleaf.prefix=classpath:templates/  : 템플릿 파일의 위치 설정 -->
+<!--  spring.thymeleaf.suffix=.html  : view 파일의 기본 확장자명 설정 -->
+<!--  spring.thymeleaf.enabled=true  : thymeleaf 사용 설정 -->
+<!--  spring.thymeleaf.cache=false  : cache 사용 설정, 사용 시 컴파일한 파일만 사용함, 개발 시 미사용-->
+
+
+  <div class="mt-3">
+    <h3>표현식</h3>
+<!--  변수 표현식 : ${변수명}, Controller 에서 전달한 변수를 thymeleaf에서 사용 시 사용 -->
+<!--  선택 표현식 : *{변수명}, 변수 표현식과 동일한 역할, 변수의 내용이 Object 타입이나, List 같은 객체 타입일 경우 객체명을 입력하지 않고 필드명으로만 출력 시 사용 -->
+<!--    표현식 안에서 간단한 연산이 가능 -->
+    <div>
+      <p>html에서 직접 입력한 문자열</p>
+      <p th:text="${value01}">Controller에서 전달한 데이터로 변환될 문자열</p>
+      <p th:text="${value02}">Controller에서 전달한 데이터로 변환될 문자열</p>
+      <p th:text="${value03}">Controller에서 전달한 데이터로 변환될 문자열</p>
+      <p th:text="${value02 + value03}">Controller에서 전달한 데이터로 변환될 문자열</p>
+    </div>
+  </div>
+
+  <br><hr><br>
+
+  <div>
+    <h3>text 출력, th:text</h3>
+<!--    thymeleaf 에서 텍스트를 출력하기 위한 명령 -->
+<!--    서버에서 전달된 데이터를 html 태그에 출력하기 위해서 사용 -->
+<!--    html 태그의 시작 태그와 끝 태그 사이에 데이터를 출력 -->
+<!--    messages.properties 파일에 문자열 세트를 미리 생성해 두고 호출하여 사용할 수 있음-->
+<!--    메세지 리소스 번들 사용 시 #{} 형식을 사용해야 함 -->
+<!--    메세지 리소스 번들은 다국어 설정이 지원됨 -->
+
+<!--    messages.properties 가 기본 파일, 지정한 나라의 설정이 없을 경우 사용되는 설정 -->
+<!--    messages_국가코드.properties 형태로 파일을 생성하여 메세지 리소스 번들 기본 파일의 내용을 동일하게 설정하고, 해당 국가 맞는 언어로 입력하여 다국어 지원이 가능함 -->
+
+    <div>
+      <p>html 태그에 직접 입력한 문자열</p>
+      <p th:text="${value01}">기본 문자열</p>
+      <p th:text="#{hello}">기본 문자열</p>
+      <p th:text="#{phone}">기본 문자열</p>
+      <p th:text="#{class}">기본 문자열</p>
+    </div>
+  </div>
+
+  <br><hr><br>
+
+  <div>
+    <h3>문자열과 html 태그 출력, th:utext</h3>
+<!--    th:utext 는 th:text 와 기본적으로 동일한 기능을 제공함 -->
+<!--    th:utext 는 html 태그 사용이 가능함 -->
+
+    <div>
+      <p>html 에 직접 입력한 문자열</p>
+      <p>html 에 직접 <strong>입력한</strong> 문자열</p>
+      <p th:text="${utext}">서버에서 전달받은 데이터로 변환될 문자열</p>
+      <p th:utext="${utext}">서버에서 전달받은 데이터로 변환될 문자열</p>
+    </div>
+  </div>
+
+  <br><hr><br>
+
+  <div>
+    <h3>thymeleaf 로 링크 주소 표시</h3>
+<!--    thymeleaf 에서 url 를 표시할 경우 @{url} 형태로 사용 -->
+<!--    웹 디자이너와 협업 시 디자이너가 임시로 입력해 놓은 url과 개발자가 사용할 url을 함께 표기하기 협업이 가능하도록 함 -->
+    
+    <div>
+<!--      기존 html 의 url 사용 방식 -->
+      <img src="/images/cat01.jpg" alt="고양이 1"><br>
+<!--      thymeleaf에서의 url 사용 방식-->
+      <img src="/images/cat03.jpg" alt="고양이 3" th:src="@{/images/cat03.jpg}"><br>
+
+<!--      url에 파라미터 사용하기 -->
+<!--      1. 기존 html 속성에 JSP에서 입력하는 방법처럼 입력 후 thymeleaf의 attrappend 속성을 사용하여 파라미터를 추가 -->
+      <a href="/board/boardDetail.do?boardIdx=" th:attrappend="href=${idx}">파라미터 사용하기 1</a>
+<!--      2. url을 thymeleaf 방식대로 @{} 형식으로 입력하고, 파라미터 부분을 jsp의 방식과 동일하게 입력 후 문자열 연결 연산자 '+' 를 이용하여 파라미터값을 전달하는 방식 -->
+      <a th:href="@{'/board/boardDetail.do?boardIdx=' + ${idx}}">파라미터 사용하기 2</a>
+<!--      3. url을 thymeleaf 방식대로 @{} 형식으로 입력하고, () 를 사용하여 파라미터를 입력 -->
+      <a th:href="@{/board/boardDetail.do(boardIdx=${idx})}">파라미터 사용하기 3</a>
+
+
+    </div>
+  </div>
+
+
+
+</div>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
