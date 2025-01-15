@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>thymeleaf 문법</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+          crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+<div class="container mt-5">
+  <h3>thymeleaf 문법을 사용하여 html 태그의 속성값 설정하기</h3>
+<!--  thymeleaf 는 th:attr 이라는 속성을 사용하여 html 태그의 속성값을 변경할 수 있음 -->
+<!--  th:attr="html속성명=속성값" 형태로 사용 -->
+<!--  th:attrappend, th:attrprepend 라는 추가 속성을 사용하여 html 태그의 기존 속성값에 데이터를 추가하는 것이 가능함 -->
+<!--  th:attrappend="html속성명=뒤에 추가될 값" 형태로 사용하여 기존 속성값의 마지막에 데이터를 추가함 -->
+<!--  th:attrprepend="html속성명=앞에 추가될 값" 형태로 사용하여 기존 속성값의 가장 앞에 데이터를 추가함 -->
+
+<!--  thymeleaf 는 html 태그에서 사용하는 거의 모든 종류의 속성을 제공하기 때문에 'th:attr' 보다는 'th:html속성명' 형태로 사용하는 것을 추천함 -->
+
+  <div class="mt-3">
+<!--    html 기본 속성 사용 -->
+    <a href="https://www.naver.com" target="_blank" class="btn btn-link">네이버 홈페이지(html에 직접입력)</a>
+<!--    a 태그의 href 속성값을 th:attr 을 사용하여 수정 -->
+    <a href="#" target="_blank" class="btn btn-link" th:attr="href=@{https://www.naver.com}">네이버 홈페이지(th:attr 로 수정)</a>
+<!--    a 태그의 href 속성값을 th:href 를 사용하여 수정 -->
+    <a href="#" target="_blank" class="btn btn-link" th:href="@{https://www.naver.com}">네이버 홈페이지(th:href 로 수정)</a>
+<!--    a 태그에서 주로 사용하는 속성값을 th:attr 을 사용하여 모두 수정 -->
+    <a th:attr="href=@{https://www.naver.com}, target='_blank', class='btn btn-link'">네이버 홈페이지(th:attr 로 전체 수정)</a>
+
+    <br><br>
+
+    <button type="button">버튼 태그</button>
+    <button type="button" th:class="'btn btn-primary'">버튼 태그(th:class로 class 속성 수정)</button>
+    <button type="button" class="btn" th:attrappend="class=' btn-success'">버튼 태그(th:attrappend로 기존 class 속성값 뒤에 속성값을 추가함)</button>
+    <button type="button" class="btn-info" th:attrprepend="class='btn '">버튼 태그(th:prepend로 기존 clsss 속성값 가장 앞에 속상값을 추가함)</button>
+  </div>
+
+  <br><hr><br>
+
+  <div>
+    <h4>고정값 논리 속성 설정하기</h4>
+<!--    html 태그 중 속성명이 자체가 값이 되는 속성(readonly, disabled, multiple, checked)의 값을 설정할 경우 사용함 -->
+<!--    컨트롤러에서 전달된 데이터를 사용하여 해당 속성에 'th:고정값속성명=${변수명}' 으로 설정하여 사용 -->
+
+    <div class="mt-3">
+      <input type="checkbox" class="form-check-input" value="사과" th:checked="${checkedVal}">사과
+      <input type="checkbox" class="form-check-input" value="수박">수박
+      <input type="checkbox" class="form-check-input" value="배" th:checked="${checkedVal}">배
+      <input type="checkbox" class="form-check-input" value="포도">포도
+
+      <br><br>
+
+      <select class="form-control" th:multiple="${multipleVal}">
+        <option value="사과">사과</option>
+        <option value="수박" th:selected="${selectedVal}">수박</option>
+        <option value="배">배</option>
+        <option value="포도" th:selected="${selectedVal}">포도</option>
+      </select>
+
+      <br>
+      <input type="text" class="form-control" placeholder="내용을 입력하세요" th:disabled="${disabledVal}">
+      <input type="text" class="form-control" placeholder="내용을 입력하세요" th:readonly="${readonlyVal}">
+    </div>
+  </div>
+</div>
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
