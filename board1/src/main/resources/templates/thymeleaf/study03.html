@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>thymeleaf 문법</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+          crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+<div class="container mt-5">
+  <h2>Thymeleaf 문법</h2>
+
+  <div class="mt-3">
+    <h3>리터럴 데이터 사용하기</h3>
+
+    <hr>
+
+    <div class="mt-3">
+      <h4>문자열 사용하기, ' '</h4>
+<!--      작은 따옴표 안에 텍스트를 입력 시 문자열로 취급되어 출력함 -->
+<!--      미리 생성해 놓은 문자열(messages.properties)를 사용할 경우 #{} 으로 사용함 -->
+<!--      작은 따옴표를 문자열로 출력 시 \' 형태로 사용 -->
+<!--      + 연산자를 사용하여 여러개의 문자열을 연결할 수 있음 -->
+      <div>
+        <p th:text="'변경할 문자열'">기본 문자열</p>
+        <p th:text="#{hello}">기본 문자열</p>
+        <p th:text="'변경한 \'문자열\''">기본 문자열</p>
+        <p th:text="'여러개' + ' 문자열을 ' + ' + ' + '기호로 연결함'">기본 문자열</p>
+        <p th:text="${str1} + ' 문자열, ' + ${str2} + ' 문자열'">기본 문자열</p>
+      </div>
+    </div>
+
+    <br>
+
+    <div>
+      <h4>리터럴 대체, || 사용하기</h4>
+<!--      thymeleaf 에서 변수와 문자열을 연결하기 위해서 + 연산자를 사용하여 문자열을 연결하여 표현함 -->
+<!--      + 연산자를 문자열 및 변수를 여러개 연결하면 사용에 불편함이 발생함 -->
+<!--      thymeleaf 에서 '' 대신 || 사용하면 + 연산자 없이 문자열과 변수를 한번에 표현할 수 있음 -->
+<!--      문자열과 변수가 함께 사용되어야 하는 부분에 || 기호로 감싸고 || 기호 내부에 문자열과 변수 표현을 위한 ${} 을 그대로 사용하면 + 연산자 없이 문자열과 변수가 연결되어 출력됨-->
+
+      <div>
+        <p th:text="${str1} + ' 문자열, ' + ${str2} + ' 문자열'">기본 문자열</p>
+        <p th:text="|${str1} 문자열, ${str2} 문자열|">기본 문자열</p>
+      </div>
+    </div>
+  </div>
+
+  <br><hr><br>
+
+  <div>
+    <h3>숫자 출력하기</h3>
+<!--    숫자는 일반적인 숫자를 그대로 사용함, 정수/실수 모두 사용, 연산도 가능 -->
+    <div>
+      <p th:text="1000">기본문자열</p>
+      <p th:text="10.5">기본문자열</p>
+      <p th:text="10 + 10.5">기본문자열</p>
+    </div>
+  </div>
+
+  <br><hr><br>
+
+  <div>
+    <h3>boolean 타입 사용하기</h3>
+<!--    boolean 타입의 데이터인 true, false 도 그대로 사용 -->
+    <div class="mt-3">
+      <p th:text="true">기본 문자열</p>
+      <p th:text="false">기본 문자열</p>
+    </div>
+  </div>
+
+  <br><hr><br>
+
+  <div>
+    <h3>연산자 사용하기</h3>
+
+    <div class="mt-3">
+      <h4>+, -, *, /, % 사용하기</h4>
+<!--      산술 연산자를 사용할 수 있음 -->
+<!--      연산자를 ${} 기호 안에서 사용 -->
+
+      <div class="mt-3">
+        <p th:text="|${num1} + ${num2} = ${num1 + num2}|">+ 연산자 사용</p>
+        <p th:text="|${num1} - ${num2} = ${num1 - num2}|">- 연산자 사용</p>
+        <p th:text="|${num1} * ${num2} = ${num1 * num2}|">* 연산자 사용</p>
+        <p th:text="|${num1} / ${num2} = ${num1 / num2}|">/ 연산자 사용</p>
+        <p th:text="|${num1} % ${num2} = ${num1 % num2}|">% 연산자 사용</p>
+      </div>
+    </div>
+
+    <br>
+
+    <div class="mt-3">
+      <h4><, >, <=, >=, ==, !=, ! 사용하기</h4>
+<!--      비교 연산자를 사용하여 비교 연산을 진행할 수 있음 -->
+<!--      일반적인 비교연산자 기호 사용 시 html 태그의 <,> 기호의 영향으로 제대로 출력이 안될 수 있기 때문에 영어로 된 연산자를 따로 제공함 -->
+<!--      lt(<), le(>), gt(<=), ge(>=), eq(==), ne(!=), not(!) 를 제공함 -->
+
+      <div class="mt-3">
+        <h5>비교 연산자 기호 사용</h5>
+
+        <p> 1 < 100 : <span th:text="1 < 100"></span></p>
+        <p> 1 > 100 : <span th:text="1 > 100"></span></p>
+        <p> 1 <= 100 : <span th:text="1 <= 100"></span></p>
+        <p> 1 >= 100 : <span th:text="1 >= 100"></span></p>
+        <p> 1 == 100 : <span th:text="1 == 100"></span></p>
+        <p> 1 != 100 : <span th:text="1 != 100"></span></p>
+        <p> !true : <span th:text="!true"></span></p>
+
+        <br>
+
+        <h5>영어로된 비교 연산자 사용</h5>
+
+        <p> 1 lt 100 : <span th:text="1 lt 100"></span></p>
+        <p> 1 gt 100 : <span th:text="1 gt 100"></span></p>
+        <p> 1 le 100 : <span th:text="1 le 100"></span></p>
+        <p> 1 ge 100 : <span th:text="1 ge 100"></span></p>
+        <p> 1 eq 100 : <span th:text="1 eq 100"></span></p>
+        <p> 1 ne 100 : <span th:text="1 ne 100"></span></p>
+        <p> not true : <span th:text="not true"></span></p>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

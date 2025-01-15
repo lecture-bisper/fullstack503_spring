@@ -2,8 +2,13 @@ package bitc.fullstack503.board1.controller;
 
 import bitc.fullstack503.board1.dto.MemberDTO;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
+
+import java.lang.reflect.Member;
+import java.util.ArrayList;
+import java.util.List;
 
 @Controller
 public class ThymeleafController {
@@ -51,6 +56,101 @@ public class ThymeleafController {
     mv.addObject("str3", null);
 
     return mv;
+  }
+
+  @RequestMapping("/thymeleaf/study03")
+  public ModelAndView study03() {
+    ModelAndView mv = new ModelAndView("thymeleaf/study03");
+
+//    ModelAndView 클래스 타입의 객체에 문자열 데이터 추가
+    mv.addObject("str1", "첫번째");
+    mv.addObject("str2", "두번째");
+//    ModelAndView 클래스 타입의 객체에 null 을 추가
+    mv.addObject("str3", null);
+
+//    Model에 정수 데이터 추가
+    mv.addObject("num1", 100);
+    mv.addObject("num2", 200);
+    mv.addObject("num3", 11);
+
+    return mv;
+  }
+
+  @RequestMapping("/thymeleaf/study04")
+  public ModelAndView study04() {
+    ModelAndView mv = new ModelAndView("thymeleaf/study04");
+
+//    Model에 정수 데이터 저장
+    mv.addObject("num", 11);
+
+//    Model에 null 을 저장
+    mv.addObject("nullData", null);
+
+//    Model에 문자열 데이터 저장
+    mv.addObject("grade", "adaskljh");
+
+    String[] strArray = {"첫번째", "두번째", "세번째", "네번째", "다섯번째"};
+    List<String> strList = new ArrayList<String>();
+    strList.add("첫번째");
+    strList.add("두번째");
+    strList.add("세번째");
+    strList.add("네번째");
+    strList.add("다섯번째");
+
+//    Model에 array 데이터와 list 데이터를 추가
+    mv.addObject("itemArray", strArray);
+    mv.addObject("itemList", strList);
+
+//    MemberDTO 클래스 타입의 객체 생성
+    MemberDTO member1 = new MemberDTO();
+    member1.setId("iu");
+    member1.setName("아이유");
+    member1.setPass("1234");
+    member1.setRegidate("2025-01-15 12:06:00");
+
+    MemberDTO member2 = new MemberDTO();
+    member2.setId("inna");
+    member2.setName("유인나");
+    member2.setPass("1234");
+    member2.setRegidate("2025-01-15 12:07:00");
+
+    MemberDTO member3 = new MemberDTO();
+    member3.setId("je");
+    member3.setName("유재석");
+    member3.setPass("1234");
+    member3.setRegidate("2025-01-15 12:08:00");
+
+//    List 에 MemberDTO 객체 저장
+    List<MemberDTO> memberList = new ArrayList<>();
+    memberList.add(member1);
+    memberList.add(member2);
+    memberList.add(member3);
+    
+//    Model 에 ArrayList 데이터 저장
+    mv.addObject("memberList", memberList);
+
+    return mv;
+  }
+
+//  반환타입을 String으로 설정하여 실제로 반환하는 데이터는 View 파일의 경로를 반환
+//  매개변수로 Model 인터페이스를 받아서 View 파일에 전달할 데이터를 저장
+//  ModelAndView 를 사용하는 것과 동일함
+  @RequestMapping("/thymeleaf/study05")
+  public String study05(Model model) {
+
+//    addAttribute() : ModelAndView에 데이터를 저장하는 addObject()와 동일한 역할하는 메소드
+    model.addAttribute("checkedVal", true);
+    model.addAttribute("multipleVal", true);
+    model.addAttribute("selectedVal", true);
+    model.addAttribute("disabledVal", false);
+    model.addAttribute("readonlyVal", false);
+
+    return "thymeleaf/study05";
+  }
+
+  @RequestMapping("/thymeleaf/study06")
+  public String study06() {
+    return "thymeleaf/study06";
   }
 }
 
