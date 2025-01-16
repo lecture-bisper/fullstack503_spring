@@ -20,4 +20,9 @@
 	2. thymeleaf 문법, 삼항 연산자 사용, if/unless 문 사용, switch ~ case 문, 반복문 사용하기
 	3. thymeleaf 문법, html 속성값 설정, 고정 논리 속성값 설정
 	4. thymeleaf 문법, 외부 파일 포함하여 사용하기
+4. 3일차 수업 (board1)
+	1. 스프링 부트 게시판, 글쓰기 페이지 View, Controller, Service, Mapper, SQL 완성
+	2. 스프링 부트 게시판, 글상세 페이지 View, Controller, Service, Mapper, SQL 완성, 조회수 증가 Mapper, SQL 완성
+	3. 스프링 부트 게시판, 글삭제 Controller, Service, Mapper, SQL 완성
+	4. 스프링 부트 게시판, 글수정 Controller, Service, Mapper, SQL 완성
 	
