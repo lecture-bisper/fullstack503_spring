@@ -1,11 +1,77 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- 위의 내용은 아래의 내용이 xml 문법으로 되어 있다는 것을 의미 -->
+
+<!-- MyBatis sql 쿼리문을 mapping 하는 파일임을 나타냄 -->
 <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!--  MyBatis : 기존 JDBC 프로그래밍은 Java 소스코드와 데이터베이스의 SQL 쿼리문의 함께 사용하는 방식 -->
+<!--  Java 소스 코드를 수정 시 SQL 쿼리문의 수정이 발생할 수 있으며, SQL 쿼리 수정 시 Java 소스 코드의 수정이 필요한 문제가 발생하여 데이터베이스와 자바 프로그래밍의 협업 및 유지보수의 어려움이 발생함 -->
+<!--  MyBatis 는 JDBC 자바 소스코드와 데이터베이스 SQL문을 서로 분리하여 사용하도록 만들어주는 프레임워크 -->
+<!--  이러한 형태의 데이터베이스 프레임워크를 ORM(object Relational Mapping) 이라고 함 -->
+
+<!--  <mapper> : @Mapper 어노테이션으로 설정되어 있는 인터페이스 파일과 연동되는 파일임을 스프링 프레임워크에 알려줌 -->
+<!--  namespace : 해당 어플리케이션의 자바 클래스명을 입력하여 연동, 기본 JAVA API에 속한 클래스가 아니기 때문에 전체 패키지명을 포함하여 입력해야 함 -->
 <mapper namespace="bitc.fullstack503.board1.mapper.BoardMapper">
 
+<!--  실제 SQL 문을 입력하는 구문 -->
+<!--  해당 xml 파일과 java interface 파일을 연동하여 사용함 -->
+<!--  <select>, <insert>, <update>, <delete> 태그를 사용하여 실제 sql문을 입력 -->
+<!--  <mapper> 에서 연동한 인터페이스 파일에서 제공하고 있는 메소드와 1:1로 연동되는 xml 태그 -->
+<!--  id : 매칭된 인터페이스의 멤버 메소드명과 지정한 xml 태그의 id 속성명이 동일해야 함, xml 문법에서는 오버로딩이 없기 때문에 동일한 메소드명을 여러개 사용할 수 없음 -->
+<!--  resultType : 해당 태그가 실행된 후 반환될 데이터 타입 설정, 패키지명 전체 입력 -->
+<!--  parameterType : 해당 태그를 실행 시 필요한 매개변수의 타입을 설정, 패키지명 전체 입력 -->
   <select id="selectBoardList" resultType="bitc.fullstack503.board1.dto.BoardDTO">
     SELECT board_idx, title, create_id, DATE_FORMAT(create_date, '%Y.%m.%d %H:%i:%s') AS create_date, hit_cnt FROM board
     WHERE deleted_yn = 'N' ORDER BY board_idx DESC
   </select>
+
+<!--  글 등록 -->
+<!--  parameterType 으로 DTO 클래스 타입의 객체를 가져와서 사용할 경우 DTO 클래스의 필드명을 #{필드명} 형태로 SQL문에 입력하여 사용함 -->
+  <insert id="insertBoard" parameterType="bitc.fullstack503.board1.dto.BoardDTO">
+    INSERT INTO board (title, contents, create_id, create_date)
+    VALUES (#{title}, #{contents}, #{createId}, now())
+  </insert>
+
+<!--  글 상세보기 -->
+  <select id="selectBoardDetail" parameterType="int" resultType="bitc.fullstack503.board1.dto.BoardDTO">
+    SELECT board_idx, title, contents, create_id, create_date, update_id, update_date, hit_cnt
+    FROM board
+    WHERE board_idx = #{boardIdx}
+    AND deleted_yn = 'N'
+  </select>
+
+<!--  글 삭제-->
+<!--  Mapper 파일에서 @Param 어노테이션을 사용했을 경우 지정한 이름을 변수명으로 사용해야 함 -->
+  <update id="deleteBoard" parameterType="int">
+    UPDATE board
+    SET deleted_yn = 'Y'
+    WHERE board_idx = #{idx}
+  </update>
+
+<!--  글 수정 -->
+  <update id="updateBoard" parameterType="bitc.fullstack503.board1.dto.BoardDTO">
+    UPDATE board
+    SET title = #{title}, contents = #{contents}
+    WHERE board_idx = #{boardIdx}
+  </update>
+
+<!--  조회수 증가 -->
+  <update id="updateHitCnt" parameterType="int">
+    UPDATE board
+    SET hit_cnt = hit_cnt + 1
+    WHERE board_idx = #{boardIdx}
+  </update>
 </mapper>
+
+
+
+
+
+
+
+
+
+
+
