@@ -35,6 +35,13 @@ dependencies {
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
     testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:3.0.4'
     testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
+
+    // https://mvnrepository.com/artifact/commons-io/commons-io
+    implementation 'commons-io:commons-io:2.18.0'
+
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-fileupload2-jakarta-servlet6
+    implementation 'org.apache.commons:commons-fileupload2-jakarta-servlet6:2.0.0-M2'
+
 }
 
 tasks.named('test') {
