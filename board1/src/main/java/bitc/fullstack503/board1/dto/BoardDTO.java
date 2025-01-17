@@ -5,6 +5,8 @@ import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
+import java.util.List;
+
 //  DTO : 데이터베이스의 데이터 타입과 자바의 데이터 타입이 서로 다르기 때문에 데이터베이스와 타입과 자바의 타입을 서로 맞추기 위해서 사용하는 데이터 전송용 자바 클래스
 //  DTO 클래스 생성 시 필드는 반드시 접근제한자를 private 로 사용하고, 데이터 입출력을 위해서 Getter/Setter 를 사용해야 함
 
@@ -31,6 +33,8 @@ public class BoardDTO {
   private String updateId;
   private String updateDate;
   private int hitCnt;
+//  업로드된 파일 목록
+  private List<FileDTO> fileList;
 }
 
 

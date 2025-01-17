@@ -1,6 +1,8 @@
 package bitc.fullstack503.board1.service;
 
 import bitc.fullstack503.board1.dto.BoardDTO;
+import bitc.fullstack503.board1.dto.FileDTO;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 import java.util.List;
 
@@ -13,11 +15,15 @@ public interface BoardService {
 
   public void insertBoard(BoardDTO board) throws Exception;
 
+  public void insertBoard(BoardDTO board, MultipartHttpServletRequest multipart) throws Exception;
+
   public BoardDTO selectBoardDetail(int boardIdx) throws Exception;
 
   public void deleteBoard(int boardIdx) throws Exception;
 
   public void updateBoard(BoardDTO board) throws Exception;
+
+  public FileDTO selectBoardFileInfo(int fileIdx, int boardIdx) throws Exception;
 }
 
 
