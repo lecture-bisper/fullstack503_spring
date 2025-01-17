@@ -29,7 +29,10 @@
 
 <!--  글 등록 -->
 <!--  parameterType 으로 DTO 클래스 타입의 객체를 가져와서 사용할 경우 DTO 클래스의 필드명을 #{필드명} 형태로 SQL문에 입력하여 사용함 -->
-  <insert id="insertBoard" parameterType="bitc.fullstack503.board1.dto.BoardDTO">
+<!--  mybatis 사용 시 useGeneratedKeys 옵션을 사용하여 자동 증가 옵션을 사용할 수 있음 -->
+<!--  keyProperty : useGeneratedKeys 옵션 사용 시 자동 증가되는 번호를 지정한 컬럼값으로 반환받을 수 있음 -->
+<!--  반환받을 컬럼명은 DTO 클래스의 필드명으로 설정함 -->
+  <insert id="insertBoard" parameterType="bitc.fullstack503.board1.dto.BoardDTO" useGeneratedKeys="true" keyProperty="boardIdx">
     INSERT INTO board (title, contents, create_id, create_date)
     VALUES (#{title}, #{contents}, #{createId}, now())
   </insert>
@@ -53,7 +56,7 @@
 <!--  글 수정 -->
   <update id="updateBoard" parameterType="bitc.fullstack503.board1.dto.BoardDTO">
     UPDATE board
-    SET title = #{title}, contents = #{contents}
+    SET title = #{title}, contents = #{contents}, update_id = #{createId}, update_date = now()
     WHERE board_idx = #{boardIdx}
   </update>
 
@@ -63,6 +66,42 @@
     SET hit_cnt = hit_cnt + 1
     WHERE board_idx = #{boardIdx}
   </update>
+
+<!--  첨부파일 추가 -->
+<!--  <foreach> : Mybatis의 반복문, 해당 태그 아래에 있는 부분을 반복 실행함, 자바의 향상된 for문과 같음 -->
+<!--  collection : <foreach> 실행 시 반복 실행될 대상의 데이터 타입을 설정, array/list -->
+<!--  item : <foreach> 실행 시 배열 혹은 리스트에서 꺼내온 데이터의 이름(변수명)을 설정 -->
+<!--  separator : 데이터를 구분하는 기호 설정, 주로 ' , ' 를 사용함 -->
+  <insert id="insertBoardFileList" parameterType="bitc.fullstack503.board1.dto.FileDTO">
+    INSERT INTO t_file
+      (board_idx, original_file_name, stored_file_name, file_size, create_id, create_date)
+    VALUES
+    <foreach collection="list" item="item" separator=",">
+      (#{item.boardIdx}, #{item.originalFileName}, #{item.storedFileName}, #{item.fileSize}, #{item.createId}, now())
+    </foreach>
+  </insert>
+
+<!--  parameterType="map" : parameterType 은 Mapper 파일에서 지정한 메소드의 매개변수의 타입을 의미 -->
+<!--  매개변수가 1개만 있을 경우 해당 매개변수의 데이터 타입을 입력 -->
+<!--  매개변수의 개수가 많을 경우는 DTO 클래스 타입을 생성하여 DTO 클래스 타입을 입력-->
+<!--  매개변수의 개수가 2개 혹은 3개 라서 DTO 클래스 타입을 생성하기가 애매할 경우 Mapper 파일의 메소드의 매개변수는 일반 데이터 타입으로 입력하고, xml 의 parameterType은 map 을 선언하여 사용 -->
+<!--  다운로드할 파일 정보 가져오기 -->
+  <select id="selectBoardFileInfo" parameterType="map" resultType="bitc.fullstack503.board1.dto.FileDTO">
+    SELECT board_idx, file_idx, original_file_name, stored_file_name, file_size, create_id, create_date, update_id, update_date
+    FROM t_file
+    WHERE file_idx = #{fileIdx}
+    AND board_idx = #{boardIdx}
+    AND deleted_yn = 'N'
+  </select>
+
+<!--  첨부파일 목록 가져오기 -->
+  <select id="selectBoardFileList" parameterType="int" resultType="bitc.fullstack503.board1.dto.FileDTO">
+    SELECT board_idx, file_idx, original_file_name, stored_file_name,
+    FORMAT(ROUND(file_size / 1024), 0) AS file_size
+    FROM t_file
+    WHERE board_idx = #{boardIdx}
+    AND deleted_yn = 'N'
+  </select>
 </mapper>
 
 

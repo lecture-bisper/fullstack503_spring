@@ -1,6 +1,7 @@
 package bitc.fullstack503.board1.mapper;
 
 import bitc.fullstack503.board1.dto.BoardDTO;
+import bitc.fullstack503.board1.dto.FileDTO;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
@@ -33,6 +34,12 @@ public interface BoardMapper {
   public void updateBoard(BoardDTO board) throws Exception;
 
   public void updateHitCnt(@Param("boardIdx") int boardIdx) throws Exception;
+
+  public void insertBoardFileList(List<FileDTO> fileList) throws Exception;
+
+  public FileDTO selectBoardFileInfo(@Param("fileIdx") int fileIdx, @Param("boardIdx") int boardIdx) throws Exception;
+
+  public List<FileDTO> selectBoardFileList(@Param("boardIdx") int boardIdx) throws Exception;
 }
 
 
