@@ -1,15 +1,23 @@
 package bitc.fullstack503.board1.controller;
 
 import bitc.fullstack503.board1.dto.BoardDTO;
+import bitc.fullstack503.board1.dto.FileDTO;
 import bitc.fullstack503.board1.service.BoardService;
+import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.File;
+import java.net.URLEncoder;
 import java.util.List;
+
+import org.apache.commons.io.FileUtils;
 
 // 실제 클라이언트의 요청을 Controller 처리하는 클래스
 // 기능에 따라서 여러개의 Controller 클래스 파일을 생성해서 사용
@@ -59,14 +67,16 @@ public class BoardController {
 //  클라이언트가 전달한 데이터의 이름을 BoardDTO 클래스 타입의 필드와 1:1 로 매칭해서 BoardDTO 클래스 타입의 객체로 만듬
 //  boardWrite.html 의 input 태그의 name 속성명이 BoardDTO 클래스 타입의 필드명과 일치해야 함
   @RequestMapping("/board/insertBoard.do")
-  public String insertBoard(BoardDTO board) throws Exception {
+  public String insertBoard(BoardDTO board, MultipartHttpServletRequest multipart) throws Exception {
 //  public String insertBoard(
 //      @RequestParam("title") String title,
 //      @RequestParam("createId") String createId,
 //      @RequestParam("contents") String contents
 //  ) throws Exception {
 //    서비스 객체에서 제공하는 insertBoard() 메소드를 사용하여 데이터베이스에 데이터 저장
-    boardService.insertBoard(board);
+//    boardService.insertBoard(board);
+
+    boardService.insertBoard(board, multipart);
 
 //    JSP의 response.sendRedirect() 와 같은 역할
 //    @RequestMapping("/board/openBoardList.do") 의 위치로 이동
@@ -105,6 +115,31 @@ public class BoardController {
     boardService.updateBoard(board);
 
     return "redirect:/board/openBoardList.do";
+  }
+
+//  파일 다운로드 링크
+//  반환 타입을 void로 설정하여 클라이언트에게 View 파일을 전송하지 않음
+  @RequestMapping("/board/downloadBoardFile.do")
+  public void downloadBoardFile(@RequestParam("fileIdx") int fileIdx, @RequestParam("boardIdx") int boardIdx, HttpServletResponse response) throws Exception {
+//    사용자가 지정한 파일의 정보를 데이터베이스에서 가져오기
+    FileDTO boardFile = boardService.selectBoardFileInfo(fileIdx, boardIdx);
+
+    if (ObjectUtils.isEmpty(boardFile) == false) {
+//      첨부파일의 원본 이름을 가져옴
+      String fileName = boardFile.getOriginalFileName();
+//      apache commons io 라이브러리에서 제공하는 readFileToByteArray() 메소드를 사용하여 파일을 byte 타입의 배열로 변환
+      byte[] files = FileUtils.readFileToByteArray(new File(boardFile.getStoredFileName()));
+
+//      응답객체인 response 에 다운로드를 위한 설정
+      response.setContentType("application/octet-stream");
+      response.setContentLength(files.length);
+//      URLEncoder : http 프로토콜은 영어, 숫자, 특수문자만 표현이 가능하기 때문에 한글과 같은 문자를 제대로 표현할 수 없어 http 프로토콜에서 인식할 수 있는 방식으로 문자를 변환
+      response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(fileName, "UTF-8") + "\"");
+//      response 객체를 사용하여 outputstream으로 파일 쓰기 (클라이언트로 파일 전송)
+      response.getOutputStream().write(files);
+      response.getOutputStream().flush(); // outputStream의 버퍼 비우기
+      response.getOutputStream().close(); // outputStream 닫기
+    }
   }
 }
 

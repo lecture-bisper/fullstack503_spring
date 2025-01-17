@@ -107,6 +107,17 @@
           </div>
         </div>
       </div>
+
+      <div class="row mt-3">
+<!--        thymeleaf의 th:if 를 사용하여 첨부파일 목록이 없을 경우 해당 UI를 표시하지 않음 -->
+        <div class="col-sm border rounded-2 px-3 mx-3 py-2" th:if="${#lists.size(board.fileList)} > 0">
+          <label for="files" class="form-label">첨부 파일 : </label>
+<!--          첨부 파일 목록이 있을 경우 th:each 를 사용하여 반복 표시 -->
+<!--          실제 다운로드 링크를 설정 -->
+          <a href="#" class="btn btn-link" id="files" th:each="item : ${board.fileList}" th:text="|${item.originalFileName} (${item.fileSize} kb) |" th:href="@{/board/downloadBoardFile.do(fileIdx=${item.fileIdx}, boardIdx=${item.boardIdx})}">첨부파일</a>
+        </div>
+      </div>
+
       <div class="row mt-3">
         <div class="col-sm">
           <button type="button" class="btn btn-secondary" id="btn-list">목록</button>
