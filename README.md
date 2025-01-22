@@ -37,5 +37,8 @@
 	1. 스프링 부트 게시판, REST 방식 게시판
 	2. 스프링 부트 게시판, REST API
 	3. 스프링 부트 게시판, Paging 기능을 사용한 게시판 목록
+8. 8일차 수업 (xml_json_parser)
+	1. xml 데이터 파싱하기, (xml 파일, open api xml 데이터)
+	2. json 데이터 파싱하기, open api json 데이터
 	
 	
