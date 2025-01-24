@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ajax 를 사용한 계산기</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+          crossorigin="anonymous"></script>
+  <script>
+//    ajax : Asynchronous javascript and xml 의 줄임말로 자바스크립트를 사용하여 서버와 비동기 통신을 하는 기술
+//    자바스크립트를 사용하여 서버와 직접 통신을 진행하고 응답받은 결과를 자바스크립트를 통해서 화면에 출력
+//    자바스크립트를 통해서 결과를 화면에 구성하기 때문에 현재 페이지에서 다른 페이지로 이동이 없이 사용 가능함
+//    자바스크립트를 통해서 현재 페이지의 일부분을 수정하기 때문에 전체 화면을 새로 구성하는 것보다 적은 리소스를 사용함
+    $(document).ready(function() {
+      $("#btn-calc").on("click", function() {
+        var val1 = $("#num1").val();
+        var val2 = $("#num2").val();
+        var sendData = {num1: val1, num2: val2};
+
+        // $.ajax() : jquery에서 제공하는 ajax 통신 함수
+        // object 타입을 통해서 필요한 정보를 입력하는 방식
+        // 필수 속성은 url, type, data, success 4개 임
+        // 추가로 dataType, error 을 많이 사용함
+        $.ajax({
+          // url : ajax 로 통신을 진행할 서버의 URL 을 설정
+          url: "/ajax/ajaxCalcResult",
+          // type : 서버와 통신 시 사용할 통신 방식 (GET, POST, PUT, DELETE)
+          type: "POST",
+          // data : 서버로 전달할 데이터, object 타입으로 입력, 스프링 서버에서는 @RequestParam으로 받을 수 있음
+          data: {num1: val1, num2: val2},
+          // dataType : 서버와 통신 성공 시 서버에서 클라이언트로 전달하는 데이터의 타입 설정 (text, html, json), 미 입력 시 자동 설정 됨
+          // success : 서버와 통신 성공 시 자동 실행되는 콜백 함수, 매개변수로 서버에서 전달하는 데이터를 가져옴
+          success: function(data) {
+
+            if (data.result == "success") {
+              var tag = $("#div-result");
+              tag.empty();
+
+              var html = "<label for='result' class='form-label'>계산 결과 :</label>";
+              html += "<input type='text' class='form-control' id='result' value='" + data.value + "' readonly>";
+
+              tag.append(html);
+            }
+            else {
+              alert("계산 중 오류가 발생했습니다.");
+            }
+          },
+          // error : 서버와 통신 실패 시 자동 동작하는 콜백함수, 매개변수로 에러 메시지를 받아옴
+          error: function() {
+            alert("ajax 통신 중 오류 발생");
+          }
+        });
+      });
+    });
+  </script>
+</head>
+<body>
+
+<div class="container mt-5">
+  <h1 class="text-center">Ajax 를 사용한 계산기</h1>
+  <div class="row">
+    <div class="col-sm-4 mx-auto">
+      <div class="mt-3">
+        <label for="num1" class="form-label">첫번째 숫자 :</label>
+        <input type="text" class="form-control" id="num1" placeholder="첫번째 숫자를 입력하세요">
+      </div>
+      <div class="mt-3">
+        <label for="num2" class="form-label">두번째 숫자 :</label>
+        <input type="text" class="form-control" id="num2" placeholder="두번째 숫자를 입력하세요">
+      </div>
+      <div class="mt-3 d-grid gap-2">
+        <button type="button" class="btn btn-primary" id="btn-calc">계산</button>
+      </div>
+      <hr class="my-3">
+      <div class="mt-3" id="div-result"></div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

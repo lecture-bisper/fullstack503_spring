@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ajax 로 selectbox 에 입력한 데이터 가져오기</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+          crossorigin="anonymous"></script>
+
+  <script>
+    $(document).ready(function() {
+      // id 값이 sel1 인 selectbox 태그를 선택하고, change 이벤트 설정
+      $("#sel1").on("change", function() {
+        // id 값이 sel1 인 태그의 자식 태그가 option 태그이고, 현재 상태가 selected 인 태그의 value 값 가져오기
+        var selectValue = $("#sel1 option:selected").val();
+        // 서버로 전송할 데이터 생성
+        var sendData = {areaName: selectValue};
+
+        // ajax를 통해서 서버와 통신
+        $.ajax({
+          url: "/ajax/selectBox",
+          type: "post",
+          data: sendData,
+          success: function(data) {
+            if (data.length > 0) {
+              var selectBox2 = $("#sel2");
+              selectBox2.empty();
+
+              var html = "<option value='' selected>선택하세요</option>";
+
+              for (var i = 0; i < data.length; i++) {
+                html += "<option value='" + data[i].storeName + "'>" + data[i].storeName + "</option>";
+              }
+
+              selectBox2.append(html);
+            }
+            else {
+              alert("오류 발생");
+            }
+          },
+          error: function(e) {
+            alert("통신 중 오류 발생");
+          }
+        });
+      });
+    });
+  </script>
+</head>
+<body>
+
+<div class="container mt-5">
+  <h1 class="text-center">ajax 로 실시간 데이터 가져오기</h1>
+
+  <div>
+    <h3>전국 유명 빵집</h3>
+    <div class="row">
+      <div class="col-sm">
+        <select name="sel1" id="sel1" class="form-control">
+          <option value="" selected>선택하세요</option>
+          <option value="서울">서울</option>
+          <option value="대전">대전</option>
+          <option value="부산">부산</option>
+        </select>
+      </div>
+      <div class="col-sm">
+        <select name="sel2" id="sel2" class="form-control">
+          <option value="" selected>선택하세요</option>
+        </select>
+      </div>
+    </div>
+  </div>
+</div>
+</body>
+</html>
+
+
+
+
+
+
+
+
+
