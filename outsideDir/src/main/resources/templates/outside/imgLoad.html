@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+
+<html lang="ko" xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>외부 폴더 등록하여 사용하기</title>
+
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"
+          integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz"
+          crossorigin="anonymous"></script>
+
+</head>
+<body>
+
+<div class="container mt-5">
+  <h2>static 폴더에 있는 이미지 사용</h2>
+
+  <div>
+    <img src="/images/cat01.jpg" alt="고양이 1">
+    <img src="#" alt="고양이2" th:src="@{/images/cat02.jpg}">
+  </div>
+  <br><hr><br>
+
+  <h2>외부 폴더에 있는 이미지 사용</h2>
+  
+  <div>
+    <h3>드라이브에 있는 이미지를 직접 호출</h3>
+    <img src="C:\\fullstack503\\img\\dog01.jpg" alt="강아지1">
+    <img src="#" alt="강아지2" th:src="@{C:/fullstack503/img/dog02.jpg}">
+  </div>
+
+  <br><hr><br>
+  
+  <h2>스프링에 외부 폴더를 등록하고 이미지를 호출</h2>
+  <div>
+    <img src="/imgs/dog01.jpg" alt="강아지1">
+    <img src="/imgs/dog02.jpg" alt="강아지2" th:src="@{/imgs/dog02.jpg}">
+  </div>
+
+  <hr>
+  <h2>application.properties 에 외부 폴더 내용이 있음</h2>
+  <div>
+    <h4>imgs 폴더로 등록된 곳에서 이미지 가져오기</h4>
+    <img src="/imgs/dog01.jpg" alt="강아지1">
+    <h4>animals 폴더로 등록된 곳에서 이미지 가져오기</h4>
+    <img src="/animals/dog01.jpg" alt="강아지" th:src="@{/animals/dog01.jpg}">
+    <img src="/animals/cat01.jpg" alt="고양이" th:src="@{/animals/cat01.jpg}">
+  </div>
+</div>
+
+
+<br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br><br>
+</body>
+</html>
+
+
+
+
+
+
+
+
+

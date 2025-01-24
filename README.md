@@ -40,5 +40,9 @@
 8. 8일차 수업 (xml_json_parser)
 	1. xml 데이터 파싱하기, (xml 파일, open api xml 데이터)
 	2. json 데이터 파싱하기, open api json 데이터
-	
+9. 9일차 수업 (ajaxTest, outsideDir, jspTest)
+	1. 외부 폴더 등록하기
+	2. 스프링에서 ajax 사용하기
+	3. ajax와 json 연동을 위한 Gson 라이브러리 사용하기
+	4. JPA 를 사용한 데이터베이스 테이블 생성 및 설정 방법
 	
