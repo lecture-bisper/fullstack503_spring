@@ -45,4 +45,10 @@
 	2. 스프링에서 ajax 사용하기
 	3. ajax와 json 연동을 위한 Gson 라이브러리 사용하기
 	4. JPA 를 사용한 데이터베이스 테이블 생성 및 설정 방법
+10. 10일차 수업 (jpaText, board4)
+	1. jpa를 사용한 게시판, jpa 연동, db 설정, entity 생성
+	2. jpa를 사용한 게시판, service 와 resposity 생성
+	3. jpa를 사용한 게시판, controller 와 view 생성
+	4. jpa를 사용한 게시판, 더미데이터 자동 추가
+	5. JPA, 쿼리 메소드, @Query 사용
 	
