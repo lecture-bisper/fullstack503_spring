@@ -3,7 +3,7 @@ package bitc.fullstack503.jpatest.data.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-import java.time.LocalDateTime;
+//  상품 테이블
 
 //  @Entity : JPA 에서 해당 클래스가 데이터베이스의 테이블이라는 것을 알려주는 어노테이션
 //  테이블 생성 시 클래스 명이 테이블 명이 됨
@@ -20,7 +20,10 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 //  @AllArgsConstructor : 롬복 라이브러리에서 제공하는 어노테이션으로 모든 필드에 대한 매개변수를 가지고 있는 생성자를 자동으로 생성해주는 어노테이션
 @AllArgsConstructor
-public class ProductEntity {
+//  callSuper : 부모 클래스의 필드를 해당 클래스에 포함하는 역할을 하는 속성, 롬복에서 제공
+@ToString(callSuper = true)
+@EqualsAndHashCode(callSuper = true)
+public class ProductEntity extends BaseEntity {
 
 //  @Id : 해당 필드가 데이터베이스의 기본키(PK) 컬럼임을 나타내는 어노테이션
   @Id
@@ -54,13 +57,32 @@ public class ProductEntity {
   private int stock;
 
 //  데이터 입력 형식 설정, 시간대를 Asia/Seoul 로 설정하여 현재 시간을 입력
-  @Column(nullable = false)
-  private LocalDateTime createdAt = LocalDateTime.now();
+//  @Column(nullable = false)
+//  private LocalDateTime createdAt = LocalDateTime.now();
 
 //  @Column 어노테이션 미사용 시 기본값으로 적용하여 컬럼을 생성
-  private LocalDateTime updatedAt;
+//  private LocalDateTime updatedAt;
 
-  private boolean isActive;
+//  private boolean isActive;
+
+
+//  JPA에서 다른 Entity와 관계 설정 시 추가할 필드를, 다른 Entity 클래스의 객체로 사용함
+
+//  @OneToOne : 다른 Entity와 1:1 관계를 가진다는 것을 알려주는 어노테이션
+//  @OneToMany : 다른 Entity와 1:N 관계를 가진다는 것을 알려주는 어노테이션
+//  @ManyToOne : 다른 Entity와 N:1 관계를 가진다는 것을 알려주는 어노테이션
+
+//  mappedBy : @OneToOne, @OneToMany 어노테이션 사용 시 기준이 되는 테이블에 사용
+
+//  @ToString.Exclude : 두 개의 Entity 양방향 관계 설정 시 ToString을 사용하면 순환참조가 발생하기 때문에 순환 참조를 제거하기 위한 어노테이션
+  @OneToOne(mappedBy = "product")
+  @ToString.Exclude
+  private ProductDetailEntity productDetail;
+
+  @ManyToOne
+  @JoinColumn(name = "provider_id") // 참조키 설정
+  @ToString.Exclude
+  private ProviderEntity provider;
 }
 
 
