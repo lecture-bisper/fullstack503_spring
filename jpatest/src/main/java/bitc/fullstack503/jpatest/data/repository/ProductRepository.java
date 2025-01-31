@@ -22,7 +22,7 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 //  find ... By : select 명령을 수행하는 키워드, read ... By, get ... By, query ... By, search ... By, stream ... By 등이 추가로 존재함
   Optional<ProductEntity> findProductEntityByNumber(Long number); // 기본 사용 방식
   Optional<ProductEntity> findByNumber(Long number); // entity를 이미 지정했기 때문에 entity 생략가능
-  Optional<ProductEntity> findAllByName(String name); // 이름을 기준으로 모든 데이터를 가져옴
+  Optional<List<ProductEntity>> findAllByName(String name); // 이름을 기준으로 모든 데이터를 가져옴
   ProductEntity queryByName(String name); // 다른 키워드로 데이터 가져오기
 
 //  exists ... By : 특정 데이터가 존재하는지 여부를 확인하는 키워드, true/false 바환
@@ -66,16 +66,16 @@ public interface ProductRepository extends JpaRepository<ProductEntity, Long> {
 
 //  (Is)GreaterThen, (Is)LessThen, (Is)Between : 숫자나 datetime 컬럼을 대상으로 비교 연산에 사용할 수 있는 조건 키워드
 //  경계값을 포함할 경우 Equal 키워드를 추가
-  List<ProductEntity> findByPriceIsGreaterThen(long price); // 지정한 가격 초과 데이터 조회
-  List<ProductEntity> findByPriceGreaterThan(long price);
-  List<ProductEntity> findByPriceGreaterThenEquals(long price); // 지정한 가격 이상의 데이터 조회
+  List<ProductEntity> findByPriceIsGreaterThan(Long price); // 지정한 가격 초과 데이터 조회
+  List<ProductEntity> findByPriceGreaterThan(Long price);
+  List<ProductEntity> findByPriceIsGreaterThanEqual(Long price); // 지정한 가격 이상의 데이터 조회
 
-  List<ProductEntity> findByPriceIsLessThen(long price); // 지정한 가격 미만 데이터 조회
-  List<ProductEntity> findByPriceLessThen(long price);
-  List<ProductEntity> findByPriceLessThenEquals(long price); // 지정한 가격 이하의 데이터 조회
+  List<ProductEntity> findByPriceIsLessThan(Long price); // 지정한 가격 미만 데이터 조회
+  List<ProductEntity> findByPriceLessThan(Long price);
+  List<ProductEntity> findByPriceIsLessThanEqual(Long price); // 지정한 가격 이하의 데이터 조회
 
-  List<ProductEntity> findByPriceIsBetween(long lowPrice, long highPrice); // 지정한 낮은 데이터부터 높은 데이터까지의 모든 데이터를 조회
-  List<ProductEntity> findByPriceBetween(long lowPrice, long highPrice);
+  List<ProductEntity> findByPriceIsBetween(Long lowPrice, Long highPrice); // 지정한 낮은 데이터부터 높은 데이터까지의 모든 데이터를 조회
+  List<ProductEntity> findByPriceBetween(Long lowPrice, Long highPrice);
 
 //  (Is)Like, (Is)Containing, (Is)StartingWith, (Is)EndingWith : 데이터가 일부 일치하는지 여부를 확인하는 조건 키워드
 

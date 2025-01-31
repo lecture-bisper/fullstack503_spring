@@ -51,4 +51,8 @@
 	3. jpa를 사용한 게시판, controller 와 view 생성
 	4. jpa를 사용한 게시판, 더미데이터 자동 추가
 	5. JPA, 쿼리 메소드, @Query 사용
+11. 11일차 수업 (jpaTest, JpaBoardTest)
+	1. JPA, 쿼리 메소드 실행, @Query 사용
+	2. JPA, Entity 상속, Entity 영속성, Entity 관계설정
+	3. JPA, Entity 관계설정 연습
 	
